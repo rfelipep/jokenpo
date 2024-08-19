@@ -2,6 +2,30 @@ let vitorias = 0;
 let derrotas = 0;
 let empates = 0;
 let totalJogos = 0;
+let modalidade = '';
+let melhorDe3Vitorias = 0;
+let melhorDe3Derrotas = 0;
+
+function escolherModalidade(tipo) {
+    modalidade = tipo;
+    resetarPlacar();
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('jogo').style.display = 'block';
+    document.getElementById('placar').style.display = 'block';
+}
+
+function resetarPlacar() {
+    vitorias = 0;
+    derrotas = 0;
+    empates = 0;
+    totalJogos = 0;
+    melhorDe3Vitorias = 0;
+    melhorDe3Derrotas = 0;
+    
+    document.getElementById('vitorias').textContent = vitorias;
+    document.getElementById('derrotas').textContent = derrotas;
+    document.getElementById('empates').textContent = empates;
+}
 
 function jogar(escolhaUsuario) {
     const opcoes = ['pedra', 'papel', 'tesoura'];
@@ -19,9 +43,15 @@ function jogar(escolhaUsuario) {
     ) {
         resultado = "Você venceu!";
         vitorias++;
+        if (modalidade === 'melhorDe3') {
+            melhorDe3Vitorias++;
+        }
     } else {
         resultado = "Você perdeu!";
         derrotas++;
+        if (modalidade === 'melhorDe3') {
+            melhorDe3Derrotas++;
+        }
     }
 
     totalJogos++;
@@ -42,22 +72,19 @@ function jogar(escolhaUsuario) {
     atualizarPlacar();
 
     // Mostrar o botão para jogar novamente
-    document.getElementById('jogarNovamente').style.display = 'block';
+    if (modalidade === 'melhorDe3' && (melhorDe3Vitorias === 2 || melhorDe3Derrotas === 2)) {
+        document.getElementById('resultado').innerHTML += `<p>${melhorDe3Vitorias === 2 ? 'Você ganhou a melhor de 3!' : 'Você perdeu a melhor de 3!'}</p>`;
+        document.getElementById('jogarNovamente').style.display = 'none';
+        document.getElementById('resultado').innerHTML += `<div id="jogarNovamente" style="display: block;"><button onclick="retornarMenu()">Retornar ao Menu</button></div>`;
+    } else {
+        document.getElementById('jogarNovamente').style.display = 'block';
+    }
 }
 
 function atualizarPlacar() {
-    let vitoriasPercent = ((vitorias / totalJogos) * 100).toFixed(2);
-    let derrotasPercent = ((derrotas / totalJogos) * 100).toFixed(2);
-    let empatesPercent = ((empates / totalJogos) * 100).toFixed(2);
-    
     document.getElementById('vitorias').textContent = vitorias;
-    document.getElementById('vitoriasPercent').textContent = `${vitoriasPercent}%`;
     document.getElementById('derrotas').textContent = derrotas;
-    document.getElementById('derrotasPercent').textContent = `${derrotasPercent}%`;
     document.getElementById('empates').textContent = empates;
-    document.getElementById('empatesPercent').textContent = `${empatesPercent}%`;
-    document.getElementById('totaldejogos').textContent = totalJogos;
-    
 }
 
 function reiniciar() {
@@ -69,4 +96,14 @@ function reiniciar() {
 
     // Esconder o botão de jogar novamente
     document.getElementById('jogarNovamente').style.display = 'none';
+}
+
+function retornarMenu() {
+    // Limpar a tela e retornar ao menu
+    document.getElementById('resultado').innerHTML = '';
+    document.querySelector('.botoes').style.display = 'flex';
+    document.getElementById('jogarNovamente').style.display = 'none';
+    document.getElementById('placar').style.display = 'none';
+    document.getElementById('jogo').style.display = 'none';
+    document.getElementById('menu').style.display = 'block';
 }

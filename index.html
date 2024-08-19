@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jokenpo</title>
-    <link rel="stylesheet" href="/estilos/estilos.css">
+    <link rel="stylesheet" href="estilos/estilos.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="menu">
+        <h1>Escolha a Modalidade</h1>
+        <button onclick="escolherModalidade('livre')">Modalidade Livre</button>
+        <button onclick="escolherModalidade('melhorDe3')">Melhor de 3</button>
+    </div>
+
+    <div class="container" id="jogo" style="display: none;">
         <h1>Escolha Pedra, Papel ou Tesoura</h1>
         <div class="botoes">
             <button id="pedra" onclick="jogar('pedra')">
@@ -23,15 +29,16 @@
         <div id="resultado"></div>
         <div id="jogarNovamente" style="display: none;">
             <button onclick="reiniciar()">Jogar Novamente</button>
+            <button onclick="retornarMenu()">Retornar ao Menu</button>
         </div>
         <div id="placar">
             <h2>Placar</h2>
-            <p>Vitórias: <span id="vitorias">0</span> (<span id="vitoriasPercent">0%</span>)</p>
-            <p>Derrotas: <span id="derrotas">0</span> (<span id="derrotasPercent">0%</span>)</p>
-            <p>Empates: <span id="empates">0</span> (<span id="empatesPercent">0%</span>)</p>
-            <p>Total de jogos: <span id="totaldejogos">0</span></p>
+            <p>Vitórias: <span id="vitorias">0</span></p>
+            <p>Derrotas: <span id="derrotas">0</span></p>
+            <p>Empates: <span id="empates">0</span></p>
         </div>
     </div>
+    
     <script src="modulo.js"></script>
 </body>
 </html>
